@@ -77,17 +77,17 @@
 					mask: true,
 				});
 				// === 本地图片打印 ===
-				let imgPath = "../../../static/test.jpg"
+				// let imgPath = "../../../static/test.jpg"
 				// let imgPath = "../../../static/test1.jpg"
 				// let imgPath = "../../../static/a4.jpg"
 				// === 选择图片打印 ===
-				// let imgPath = await new Promise((resolve, reject) => {
-				// 	uni.chooseImage({
-				// 		count: 1,
-				// 		sizeType: ['original'],
-				// 		success: res => resolve(res.tempFilePaths[0])
-				// 	})
-				// })
+				let imgPath = await new Promise((resolve, reject) => {
+					uni.chooseImage({
+						count: 1,
+						sizeType: ['original'],
+						success: res => resolve(res.tempFilePaths[0])
+					})
+				})
 				// === 网络图片打印 ===
 				// let url = 'https://web-assets.dcloud.net.cn/unidoc/zh/uni@2x.png'
 				// let imgPath = await new Promise((resolve, reject) => {
@@ -355,6 +355,13 @@
 				// 写入指令
 				await this.device.write(cpcl, { mtu: mtu });
 				// uni.hideLoading();
+				// uni.showModal({
+				// 	title: '',
+				// 	content: '指令已发送，请等待打印',
+				// 	showCancel: false,
+				// 	success: function (res) {
+				// 	}
+				// });
 
 			},
 		},

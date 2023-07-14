@@ -101,7 +101,7 @@ const _wxWriteBLECharacteristicValue = ({
 			serviceId,
 			characteristicId,
 			value,
-			writeType: 'writeNoResponse',
+			//writeType: 'writeNoResponse',
 			//writeType: 'write',
 			success: function() {
 				resolve(true);
