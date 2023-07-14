@@ -11,9 +11,9 @@
 
 #### 集成步骤
 
-* 复制文件夹 [printerdemo](./printerdemo) 到你项目中的根目录下
+* 复制文件夹 [src/printerdemo](./src/printerdemo) 到你项目中的根目录下
 
-* 在项目 `pages.json` 文件中添加页面路径
+* 在项目 `src/pages.json` 文件中添加页面路径
 
 ```json
 {
