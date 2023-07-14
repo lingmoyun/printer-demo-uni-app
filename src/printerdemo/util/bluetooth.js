@@ -2,7 +2,7 @@
  * Create by Winford
  */
 
-//var HexByteUtil = require('./hex_byte_util.js');
+//var HEX = require('./HEX.min.js');
 
 // 初始化蓝牙
 const _openBluetoothAdapter = () => {
@@ -284,7 +284,7 @@ const connect = async ({
 	device.write = async (value, {
 		mtu = 20
 	}) => {
-		// console.log(device.deviceId, 'write', HexByteUtil.ab2hex(value));
+		// console.log(device.deviceId, 'write', HEX.ab2hex(value));
 		if (device.writeCharacteristicId) {
 			await _writeBLECharacteristicValue(device.deviceId, device.serviceId, device
 				.writeCharacteristicId, value, mtu);
