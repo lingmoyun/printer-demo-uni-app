@@ -382,10 +382,8 @@
 					title: '正在发送指令...',
 					mask: true,
 				});
-				// iOS: 10000; Android: 20
-				const mtu = uni.getSystemInfoSync().platform === 'ios' ? 10000 : 20;
 				// 写入指令
-				await this.device.write(cpcl, { mtu: mtu });
+				await this.device.write(cpcl);
 				// uni.hideLoading();
 
 			},
