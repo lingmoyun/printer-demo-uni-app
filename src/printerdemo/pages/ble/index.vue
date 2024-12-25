@@ -7,7 +7,7 @@
     </view>
     <view>
       <scroll-view scroll-x="true" scroll-y="true" style="width: 0; height: 0;">
-        <canvas id="myCanvas" canvas-id="myCanvas" style="width: 2000px; height: 3000px;"></canvas>
+        <canvas id="myCanvas" canvas-id="myCanvas" style="width: 2480px; height: 3510px;"></canvas>
       </scroll-view>
     </view>
   </view>
@@ -162,14 +162,15 @@ export default {
       });
       // 构建CPCL指令，更多使用方式见cpcl-sdk-demo-js，下载地址：http://open.lingmoyun.com/#/sdkDownload
       console.log('cpcl start => ', new Date());
+      const dpi = 203; // 打印机DPI
       // 构建CPCL指令               整体偏移量 高度 打印份数
       let cpcl = CPCL.Builder.createArea(0, 2376, 1)
           // 任务ID，这里传什么打印结果会原样携带返回
           .taskId('1')
-          // 页面宽度，单位：点
-          .pageWidth(1680)
+          // 固定写法，无需修改
+          .pageWidth(dpi == 203 ? 1728 : 2592)
           // 打印图片 Canvas的ImageData x y
-          .imageGG(canvasImageData, 10, 10) // 小程序调试模式下比较耗时，体验版、正式版正常。
+          .imageGG(canvasImageData, 0, 0) // 小程序调试模式下比较耗时，体验版、正式版正常。
           .formPrint()
           .build();
       console.log('cpcl finish => ', new Date());
