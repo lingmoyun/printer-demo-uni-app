@@ -210,6 +210,28 @@ const _writeBLECharacteristicValueWithDataFC = async (device, value) => {
     console.log('num--->', num);
 }
 
+// 协商MTU
+const _setBLEMTU = (deviceId, mtu) => {
+	return new Promise(function (resolve, reject) {
+        uni.setBLEMTU({
+            deviceId: deviceId,
+            mtu: mtu,
+            success(res) {
+                console.log('setBLEMTU success', res);
+                resolve(true);
+            },
+            fail(res) {
+                console.log('setBLEMTU fail', res);
+                if (res.errCode === -1 && res.errno === 1500104) {
+                    // uniapp bug, retry.
+                    resolve(false);
+                } else {
+                    reject(res);
+                }
+            },
+        });
+	});
+}
 
 // 发现设备
 const find = (onBluetoothDeviceFound) => {
@@ -307,27 +329,42 @@ const connect = async ({
         console.log(err);
     });
 
-    device.mtu = 20;
+    // device.mtu = 20;
     if (uni.getSystemInfoSync().platform === 'android') {
         await new Promise(function (resolve, reject) {
             uni.setBLEMTU({
                 deviceId: deviceId,
                 mtu: 512,
                 success(res) {
-                    //device.mtu = res.mtu;
+                    // device.mtu = res.mtu;
                     console.log('setBLEMTU success', res);
-                    resolve(res);
+                    // resolve(res);
                 },
                 fail(res) {
                     console.log('setBLEMTU fail', res);
-                    reject(res);
+                    // reject(res);
                 },
+				complete() {
+					resolve();
+				}
             });
         });
         // #ifdef APP-PLUS
         await sleep(500); // I don't know why, but uni-app is shit, okay
         // #endif
     }
+	// if (uni.getSystemInfoSync().platform === 'android') {
+    //     // uni-app bug，在部分Android手机上，setBLEMTU会失败，需要多次尝试
+    //     for (let i = 0; i < 3; i++) {
+    //         if (await _setBLEMTU(deviceId, 512)) {
+    //             break;
+    //         }
+    //         await sleep(1000);
+    //     }
+	//     // #ifdef APP-PLUS
+	//     await sleep(500); // I don't know why, but uni-app is shit, okay
+	//     // #endif
+	// }
 
     console.log('onBLECharacteristicValueChange')
     // 监听
