@@ -46,18 +46,37 @@ export default {
   },
   methods: {
     // imgPath -> CanvasImageData
-    async imgPath2CanvasImageData(imgPath) {
+    async imgPath2CanvasImageData(imgPath, { width, height }) {
       // 获取图片信息
       let imgInfo = await new Promise((resolve, reject) => {
         uni.getImageInfo({src: imgPath, success: resolve});
       })
+      const imgWidth = imgInfo.width;
+      const imgHeight = imgInfo.height;
+      // 等比缩放图片
+      if (width && height) {
+        // 同时指定宽和高，根据宽度或高度等比例缩放
+        const ratio = Math.min(width / imgWidth, height / imgHeight);
+        width = Math.floor(imgWidth * ratio);
+        height = Math.floor(imgHeight * ratio);
+      } else if (width) {
+        // 指定宽度，根据宽度等比例缩放
+        height = Math.floor(imgHeight * (width / imgWidth))
+      } else if (height) {
+        // 指定高度，根据高度等比例缩放
+        width = Math.floor(imgWidth * (height / imgHeight))
+      } else {
+        // 不指定，使用原图宽高
+        width = imgWidth;
+        height = imgHeight;
+      }
       // 获取在画布上绘图的环境
       const ctx = uni.createCanvasContext('myCanvas');
       // 填充白色底色，否则透明png图片打印出来会全黑
       ctx.setFillStyle('white')
-      ctx.fillRect(0, 0, imgInfo.width, imgInfo.height)
+      ctx.fillRect(0, 0, width, height)
       // 将图片绘制到画布上
-      ctx.drawImage(imgPath, 0, 0, imgInfo.width, imgInfo.height)
+      ctx.drawImage(imgPath, 0, 0, width, height)
       await new Promise((resolve, reject) => ctx.draw(false, resolve))
       // 获取画布上的图像像素矩阵
       return new Promise((resolve, reject) => {
@@ -65,8 +84,8 @@ export default {
           canvasId: 'myCanvas',
           x: 0,
           y: 0,
-          width: imgInfo.width,
-          height: imgInfo.height,
+          width: width,
+          height: height,
           success: resolve
         })
       })
@@ -148,7 +167,10 @@ export default {
       // #endif
 
       // 获取ImageData
-      // let canvasImageData = await this.imgPath2CanvasImageData(imgPath);
+      // let canvasImageData = await this.imgPath2CanvasImageData(imgPath); // 图片原始尺寸
+      // let canvasImageData = await this.imgPath2CanvasImageData(imgPath, { width: 1600 }); // 指定宽等比缩放图片
+      // let canvasImageData = await this.imgPath2CanvasImageData(imgPath, { height: 1600 }); // 指定高等比缩放图片
+      // let canvasImageData = await this.imgPath2CanvasImageData(imgPath, { width: 1680, height: 2376 }); // 指定宽高等比缩放图片
       // 删除BASE64临时保存的文件
       // uni.getFileSystemManager().unlink({filePath: imgPath})
 
