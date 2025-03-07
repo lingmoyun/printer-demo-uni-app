@@ -344,9 +344,9 @@ const connect = async ({
                     console.log('setBLEMTU fail', res);
                     // reject(res);
                 },
-				complete() {
-					resolve();
-				}
+                complete() {
+                    resolve();
+                }
             });
         });
         // #ifdef APP-PLUS
