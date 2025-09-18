@@ -193,12 +193,21 @@ const _writeBLECharacteristicValueWithDataFC = async (device, value) => {
             }
             // #endif
             // #ifndef APP-PLUS
-            _wxWriteBLECharacteristicValue({
-                deviceId: device.deviceId,
-                serviceId: device.serviceId,
-                characteristicId: device.writeCharacteristicId,
-                value: subData,
-            });
+            if (uni.getSystemInfoSync().platform === 'ohos') {
+                await _wxWriteBLECharacteristicValue({
+                    deviceId: device.deviceId,
+                    serviceId: device.serviceId,
+                    characteristicId: device.writeCharacteristicId,
+                    value: subData,
+                });
+            } else {
+                _wxWriteBLECharacteristicValue({
+                    deviceId: device.deviceId,
+                    serviceId: device.serviceId,
+                    characteristicId: device.writeCharacteristicId,
+                    value: subData,
+                });
+            }
             // #endif
             num++;
         } else {
@@ -330,7 +339,7 @@ const connect = async ({
     });
 
     // device.mtu = 20;
-    if (uni.getSystemInfoSync().platform === 'android') {
+    if (uni.getSystemInfoSync().platform === 'android' || uni.getSystemInfoSync().platform === 'ohos') {
         await new Promise(function (resolve, reject) {
             uni.setBLEMTU({
                 deviceId: deviceId,
