@@ -1,5 +1,5 @@
 {
-    "name" : "printer-demo-uni-app-hbuilderx",
+    "name" : "printer-demo-uni-app",
     "appid" : "",
     "description" : "",
     "versionName" : "1.0.0",
@@ -41,7 +41,9 @@
                 ]
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+                "dSYMs" : false
+            },
             /* SDK配置 */
             "sdkConfigs" : {}
         }
@@ -68,5 +70,6 @@
     "uniStatistics" : {
         "enable" : false
     },
-    "vueVersion" : "2"
+    "vueVersion" : "2",
+    "locale" : "zh-Hans"
 }
