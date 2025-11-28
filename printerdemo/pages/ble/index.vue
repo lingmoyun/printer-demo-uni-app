@@ -16,7 +16,7 @@
 <script>
 const Bluetooth = require("../../util/bluetooth.js");
 const CPCL = require("../../util/CPCL.min.js");
-const HEX = require("../../util/HEX.min.js");
+const HEX = CPCL.Tools.HEX;
 export default {
   data() {
     return {
@@ -214,7 +214,8 @@ export default {
           .build();
       console.log('cpcl finish => ', new Date());
       console.log('cpcl => ', cpcl.byteLength);
-      console.log(HEX.ab2hex(cpcl))
+      // console.log(HEX.ab2hex(cpcl))
+      // console.log(HEX.ab2base64(cpcl))
       uni.hideLoading();
       return cpcl;
     },

@@ -2,7 +2,7 @@
  * Create by Winford
  */
 
-// var HEX = require('./HEX.min.js');
+// const HEX = require("./CPCL.min.js").Tools.HEX;
 
 // 初始化蓝牙
 const _openBluetoothAdapter = () => {
