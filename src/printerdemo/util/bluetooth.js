@@ -2,7 +2,7 @@
  * Create by Winford
  */
 
-// var HEX = require('./HEX.min.js');
+// const HEX = require("./CPCL.min.js").Tools.HEX;
 
 // 初始化蓝牙
 const _openBluetoothAdapter = () => {
@@ -125,7 +125,9 @@ const _wxWriteBLECharacteristicValue = ({
 const sleep = (time) => new Promise((resolve, reject) => setTimeout(resolve, time));
 
 // 写数据
-const _writeBLECharacteristicValue = async (deviceId, serviceId, characteristicId, value, mtu = 20) => {
+const _writeBLECharacteristicValue = async (deviceId, serviceId, characteristicId, value, mtu) => {
+    // iOS: 10000; Android: 20
+    mtu = mtu || (uni.getSystemInfoSync().platform === 'ios' ? 10000 : 20);
     const total = value.byteLength;
     console.log("================mtu=" + mtu, new Date())
     let num = 0;
@@ -436,9 +438,7 @@ const connect = async ({
     }
 
     // 写方法
-    // device.write = async (value, {
-    // 	mtu = 20
-    // }) => {
+    // device.write = async (value, mtu) => {
     // 	// console.log(device.deviceId, 'write', HEX.ab2hex(value));
     // 	if (device.writeCharacteristicId) {
     // 		await _writeBLECharacteristicValue(device.deviceId, device.serviceId, device
